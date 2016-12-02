@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.pflow.IDao.AlarminfoMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.pflow.domain.Alarminfo" >
+    <id column="alarmid" property="alarmid" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="equipmentid" property="equipmentid" jdbcType="BIGINT" />
+    <result column="alarmtype" property="alarmtype" jdbcType="VARCHAR" />
+    <result column="frsalarmid" property="frsalarmid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    alarmid, createtime, note, equipmentid, alarmtype, frsalarmid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from alarminfo
+    where alarmid = #{alarmid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from alarminfo
+    where alarmid = #{alarmid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cn.pflow.domain.Alarminfo" >
+    insert into alarminfo (alarmid, createtime, note, 
+      equipmentid, alarmtype, frsalarmid
+      )
+    values (#{alarmid,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{note,jdbcType=VARCHAR}, 
+      #{equipmentid,jdbcType=BIGINT}, #{alarmtype,jdbcType=VARCHAR}, #{frsalarmid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.pflow.domain.Alarminfo" >
+    insert into alarminfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="alarmid != null" >
+        alarmid,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+      <if test="equipmentid != null" >
+        equipmentid,
+      </if>
+      <if test="alarmtype != null" >
+        alarmtype,
+      </if>
+      <if test="frsalarmid != null" >
+        frsalarmid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="alarmid != null" >
+        #{alarmid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentid != null" >
+        #{equipmentid,jdbcType=BIGINT},
+      </if>
+      <if test="alarmtype != null" >
+        #{alarmtype,jdbcType=VARCHAR},
+      </if>
+      <if test="frsalarmid != null" >
+        #{frsalarmid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.pflow.domain.Alarminfo" >
+    update alarminfo
+    <set >
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentid != null" >
+        equipmentid = #{equipmentid,jdbcType=BIGINT},
+      </if>
+      <if test="alarmtype != null" >
+        alarmtype = #{alarmtype,jdbcType=VARCHAR},
+      </if>
+      <if test="frsalarmid != null" >
+        frsalarmid = #{frsalarmid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where alarmid = #{alarmid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.pflow.domain.Alarminfo" >
+    update alarminfo
+    set createtime = #{createtime,jdbcType=TIMESTAMP},
+      note = #{note,jdbcType=VARCHAR},
+      equipmentid = #{equipmentid,jdbcType=BIGINT},
+      alarmtype = #{alarmtype,jdbcType=VARCHAR},
+      frsalarmid = #{frsalarmid,jdbcType=INTEGER}
+    where alarmid = #{alarmid,jdbcType=VARCHAR}
+  </update>
+</mapper>

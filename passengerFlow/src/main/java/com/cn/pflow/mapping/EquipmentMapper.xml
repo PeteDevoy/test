@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.pflow.IDao.EquipmentMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.pflow.domain.Equipment" >
+    <id column="equipmentid" property="equipmentid" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="parentid" property="parentid" jdbcType="BIGINT" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="port" property="port" jdbcType="INTEGER" />
+    <result column="macaddress" property="macaddress" jdbcType="VARCHAR" />
+    <result column="usetype" property="usetype" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="BIGINT" />
+    <result column="lng" property="lng" jdbcType="VARCHAR" />
+    <result column="lat" property="lat" jdbcType="VARCHAR" />
+    <result column="comments" property="comments" jdbcType="VARCHAR" />
+    <result column="frsdeviceid" property="frsdeviceid" jdbcType="VARCHAR" />
+    <result column="eqaccount" property="eqaccount" jdbcType="VARCHAR" />
+    <result column="eqpwd" property="eqpwd" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    equipmentid, name, type, parentid, ip, port, macaddress, usetype, area, lng, lat, 
+    comments, frsdeviceid, eqaccount, eqpwd
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from equipment
+    where equipmentid = #{equipmentid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from equipment
+    where equipmentid = #{equipmentid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cn.pflow.domain.Equipment" >
+    insert into equipment (equipmentid, name, type, 
+      parentid, ip, port, 
+      macaddress, usetype, area, 
+      lng, lat, comments, 
+      frsdeviceid, eqaccount, eqpwd
+      )
+    values (#{equipmentid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{parentid,jdbcType=BIGINT}, #{ip,jdbcType=VARCHAR}, #{port,jdbcType=INTEGER}, 
+      #{macaddress,jdbcType=VARCHAR}, #{usetype,jdbcType=VARCHAR}, #{area,jdbcType=BIGINT}, 
+      #{lng,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{comments,jdbcType=VARCHAR}, 
+      #{frsdeviceid,jdbcType=VARCHAR}, #{eqaccount,jdbcType=VARCHAR}, #{eqpwd,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.pflow.domain.Equipment" >
+    insert into equipment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="equipmentid != null" >
+        equipmentid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="parentid != null" >
+        parentid,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="port != null" >
+        port,
+      </if>
+      <if test="macaddress != null" >
+        macaddress,
+      </if>
+      <if test="usetype != null" >
+        usetype,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="lng != null" >
+        lng,
+      </if>
+      <if test="lat != null" >
+        lat,
+      </if>
+      <if test="comments != null" >
+        comments,
+      </if>
+      <if test="frsdeviceid != null" >
+        frsdeviceid,
+      </if>
+      <if test="eqaccount != null" >
+        eqaccount,
+      </if>
+      <if test="eqpwd != null" >
+        eqpwd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="equipmentid != null" >
+        #{equipmentid,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=BIGINT},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null" >
+        #{port,jdbcType=INTEGER},
+      </if>
+      <if test="macaddress != null" >
+        #{macaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="usetype != null" >
+        #{usetype,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=BIGINT},
+      </if>
+      <if test="lng != null" >
+        #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="comments != null" >
+        #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="frsdeviceid != null" >
+        #{frsdeviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="eqaccount != null" >
+        #{eqaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="eqpwd != null" >
+        #{eqpwd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.pflow.domain.Equipment" >
+    update equipment
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        parentid = #{parentid,jdbcType=BIGINT},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null" >
+        port = #{port,jdbcType=INTEGER},
+      </if>
+      <if test="macaddress != null" >
+        macaddress = #{macaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="usetype != null" >
+        usetype = #{usetype,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=BIGINT},
+      </if>
+      <if test="lng != null" >
+        lng = #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        lat = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="comments != null" >
+        comments = #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="frsdeviceid != null" >
+        frsdeviceid = #{frsdeviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="eqaccount != null" >
+        eqaccount = #{eqaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="eqpwd != null" >
+        eqpwd = #{eqpwd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where equipmentid = #{equipmentid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.pflow.domain.Equipment" >
+    update equipment
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      parentid = #{parentid,jdbcType=BIGINT},
+      ip = #{ip,jdbcType=VARCHAR},
+      port = #{port,jdbcType=INTEGER},
+      macaddress = #{macaddress,jdbcType=VARCHAR},
+      usetype = #{usetype,jdbcType=VARCHAR},
+      area = #{area,jdbcType=BIGINT},
+      lng = #{lng,jdbcType=VARCHAR},
+      lat = #{lat,jdbcType=VARCHAR},
+      comments = #{comments,jdbcType=VARCHAR},
+      frsdeviceid = #{frsdeviceid,jdbcType=VARCHAR},
+      eqaccount = #{eqaccount,jdbcType=VARCHAR},
+      eqpwd = #{eqpwd,jdbcType=VARCHAR}
+    where equipmentid = #{equipmentid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectEquipmentsByType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select 
+    <include refid="Base_Column_List" />
+    from equipment
+    where type = '0' and usetype = #{usetype,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectEquipmentIdByMac" resultType="java.lang.Long" parameterType="java.lang.String" >
+  	select equipmentid from equipment where macaddress = #{macaddress,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.pflow.IDao.WeatherHolidayMapper" >
+
+<resultMap id="WeatempResultMap" type="com.cn.pflow.domain.Pflowcount" >
+   <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="mac" property="mac" jdbcType="VARCHAR" />
+    <result column="startdate" property="startdate" jdbcType="VARCHAR" />
+    <result column="starttime" property="starttime" jdbcType="VARCHAR" />
+    <result column="enddate" property="enddate" jdbcType="VARCHAR" />
+    <result column="endtime" property="endtime" jdbcType="VARCHAR" />
+    <result column="zoneid" property="zoneid" jdbcType="INTEGER" />
+    <result column="totalenters" property="totalenters" jdbcType="BIGINT" />
+    <result column="totalexits" property="totalexits" jdbcType="BIGINT" />
+    <result column="enters" property="enters" jdbcType="INTEGER" />
+    <result column="exits" property="exits" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+</resultMap>
+
+<resultMap id="AreaResultMap" type="com.cn.pflow.domain.Pflowarea" >
+   <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="comments" property="comments" jdbcType="VARCHAR" />
+    <result column="parentid" property="parentid" jdbcType="BIGINT" />
+</resultMap>
+
+
+
+<!--区域查询  -->
+	<select id="getPflowArea" resultMap="AreaResultMap" >
+  		SELECT DISTINCT(p.name) ,p.id FROM pflowarea p order by p.name asc;
+	</select>
+
+<!--节假日查询  -->
+	<select id="getHolidayResults" resultType="com.cn.pflow.domain.HolidayResults">
+		SELECT DISTINCT(p.name) FROM pflowholiday p order by UNIX_TIMESTAMP(p.date) asc;
+	</select>
+	
+	<!--活动查询  -->
+	<select id="getPflowActivity" resultType="com.cn.pflow.domain.PflowActivity">
+		SELECT DISTINCT(p.name) FROM pflowactivity p order by UNIX_TIMESTAMP(p.activitydate) asc;
+	</select>
+	
+	<!--天气查询  -->
+	<select id="getWeatherInfWeather" resultType="com.cn.pflow.domain.OneDayWeatherInf">
+		SELECT DISTINCT(p.weather) FROM pflowweather p ORDER BY p.weather ASC;
+	</select>
+	
+	<!--温度查询  -->
+	<select id="getWeatherInfTempadvise" resultType="com.cn.pflow.domain.WeatherInf">
+		SELECT DISTINCT(p.Tempadvise) FROM pflowweather p ORDER BY p.Tempadvise ASC;
+	</select>
+	
+	<!--pm2.5查询  -->
+	<select id="getOneDayWeatherInfPmtwopointfive" resultType="com.cn.pflow.domain.OneDayWeatherInf">
+		SELECT DISTINCT(p.pmtwopointfive ) FROM pflowweather p ORDER BY p.pmtwopointfive  ASC;
+	</select>
+
+
+<select id="getGridCount" resultType="java.lang.Long" parameterType="java.util.Map">
+SELECT count(aid)
+FROM (
+SELECT ar.id aid, ar.name aname, ari.equipmentid eqptid, ari.orientation orientation, k.date DATE, k.totalenters totalenters, k.totalexits totalexits 
+FROM pflowarea ar, pflowequipmentareainfo ari, pflowdaycount k
+WHERE 1=1 AND ar.id = ari.areaid AND ari.equipmentid = k.equipmentid
+)kpf LEFT JOIN pflowweather w ON kpf.date = w.date
+LEFT JOIN pflowholiday h ON kpf.date = h.date
+LEFT JOIN pflowactivity ac ON kpf.date = ac.activitydate
+WHERE 1=1 
+	  <if test="area != null" >
+        and kpf.aid=#{area}
+      </if>
+       <if test="startDate != null" >
+        and UNIX_TIMESTAMP(kpf.date) &gt;= UNIX_TIMESTAMP(#{startDate})
+      </if>
+       <if test="endDate != null" >
+        and UNIX_TIMESTAMP(kpf.date) &lt;= UNIX_TIMESTAMP(#{endDate})
+      </if>
+       <if test="Holiday != null" >
+        and h.name=#{Holiday}
+      </if>
+       <if test="PflowActivity != null" >
+        and ac.name=#{PflowActivity}
+      </if>
+       <if test="pflowweather != null" >
+        and w.weather=#{pflowweather}
+      </if>
+       <if test="WeatherInfTempadvise != null" >
+        and w.Tempadvise=#{WeatherInfTempadvise}
+      </if>
+       <if test="OneDayWeatherInfPmtwopointfive != null" >
+        and w.pmtwopointfive=#{OneDayWeatherInfPmtwopointfive}
+      </if>
+       <if test="pflowStart != null" >
+        and kpf.totalenters&gt;=#{pflowStart}
+      </if>
+       <if test="pflowEnd != null" >
+        and kpf.totalenters&lt;=#{pflowEnd}
+      </if>     
+</select>
+
+
+<select id="selectGridCount" resultType="com.cn.pflow.domain.PflowAnalysisEntity" parameterType="java.util.Map">
+ SELECT kpf.*, w.Tempadvise Tempadvise, w.tempertureofday tempertureofday, w.weather weather, w.pmtwopointfive pmtwopointfive, h.name holidayname, ac.name activityname
+FROM (
+SELECT ar.id aid, ar.name aname, ari.equipmentid eqptid, ari.orientation orientation, k.date DATE, k.totalenters totalenters, k.totalexits totalexits 
+FROM pflowarea ar, pflowequipmentareainfo ari, pflowdaycount k
+WHERE 1=1 AND ar.id = ari.areaid AND ari.equipmentid = k.equipmentid
+)kpf LEFT JOIN pflowweather w ON kpf.date = w.date
+LEFT JOIN pflowholiday h ON kpf.date = h.date
+LEFT JOIN pflowactivity ac ON kpf.date = ac.activitydate
+WHERE 1=1 
+	  <if test="area != null" >
+        and kpf.aid=#{area}
+      </if>
+       <if test="startDate != null" >
+        and UNIX_TIMESTAMP(kpf.date) &gt;= UNIX_TIMESTAMP(#{startDate})
+      </if>
+       <if test="endDate != null" >
+        and UNIX_TIMESTAMP(kpf.date) &lt;= UNIX_TIMESTAMP(#{endDate})
+      </if>
+       <if test="Holiday != null" >
+        and h.name=#{Holiday}
+      </if>
+       <if test="PflowActivity != null" >
+        and ac.name=#{PflowActivity}
+      </if>
+       <if test="pflowweather != null" >
+        and w.weather=#{pflowweather}
+      </if>
+       <if test="WeatherInfTempadvise != null" >
+        and w.Tempadvise=#{WeatherInfTempadvise}
+      </if>
+       <if test="OneDayWeatherInfPmtwopointfive != null" >
+        and w.pmtwopointfive=#{OneDayWeatherInfPmtwopointfive}
+      </if>
+       <if test="pflowStart != null" >
+        and kpf.totalenters&gt;=#{pflowStart}
+      </if>
+       <if test="pflowEnd != null" >
+        and kpf.totalenters&lt;=#{pflowEnd}
+      </if>  
+     
+      <if test="start != null and oneRecord !=null" >
+         limit #{start},#{oneRecord}
+      </if>  
+      
+      
+      
+         
+</select>
+
+
+
+</mapper>

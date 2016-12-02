@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.pflow.IDao.WeatherMapper" >
+
+<resultMap id="" type="com.cn.pflow.domain.WeatherInf" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tempAdvise" property="tempAdvise" jdbcType="VARCHAR" />
+  <!--   <result column="washCarAdvise" property="washCarAdvise" jdbcType="VARCHAR" />
+    <result column="coldAdvise" property="coldAdvise" jdbcType="VARCHAR" />
+    <result column="sportsAdvise" property="sportsAdvise" jdbcType="VARCHAR" />
+    <result column="ultravioletRaysAdvise" property="ultravioletRaysAdvise" jdbcType="VARCHAR" /> -->
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="week" property="week" jdbcType="VARCHAR" />
+    <result column="tempertureOfDay" property="tempertureOfDay" jdbcType="VARCHAR" />
+    <result column="tempertureNow" property="tempertureNow" jdbcType="VARCHAR" />
+    <result column="wind" property="wind" jdbcType="VARCHAR" />
+    <result column="weather" property="weather" jdbcType="VARCHAR" />
+    <result column="pmtwopointfive" property="pmtwopointfive" jdbcType="VARCHAR" />
+</resultMap>
+
+
+<select id="countweather" resultType="java.lang.Integer"  >
+  	select 
+    count(*)
+    from pflowweather 
+    where 
+    pflowweather.date=#{date}
+  </select>
+
+  <insert id="inweather" parameterType="com.cn.pflow.domain.WeatherInf" >
+    insert into pflowweather (
+    tempAdvise, 
+   <!--  washCarAdvise, 
+    coldAdvise, 
+    sportsAdvise, 
+    ultravioletRaysAdvise, -->
+    location,
+  	date,
+    week,
+    tempertureOfDay,
+    tempertureNow,
+    <!-- wind, -->
+    weather,
+    pmtwopointfive
+      )
+    values (
+    #{tempAdvise,jdbcType=VARCHAR}, 
+    <!-- #{washCarAdvise,jdbcType=VARCHAR}, 
+    #{coldAdvise,jdbcType=VARCHAR}, 
+    #{sportsAdvise,jdbcType=VARCHAR}, 
+    #{ultravioletRaysAdvise,jdbcType=VARCHAR}, --> 
+    #{weatherInfs.location,jdbcType=VARCHAR},
+    #{weatherInfs.date,jdbcType=VARCHAR},
+    #{weatherInfs.week,jdbcType=VARCHAR},
+    #{weatherInfs.tempertureOfDay,jdbcType=VARCHAR},
+    #{weatherInfs.tempertureNow,jdbcType=VARCHAR},
+<!--     #{weatherInfs.wind,jdbcType=VARCHAR}, -->
+    #{weatherInfs.weather,jdbcType=VARCHAR},
+    #{weatherInfs.pmtwopointfive,jdbcType=VARCHAR} 
+      )
+  </insert>
+
+
+</mapper>

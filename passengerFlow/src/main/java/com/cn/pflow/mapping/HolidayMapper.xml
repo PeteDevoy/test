@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.pflow.IDao.HolidayMapper" >
+	<insert id="insertHoliday" parameterType="com.cn.pflow.domain.HolidayResults">
+		INSERT INTO pflowholiday (
+			date,
+			name
+		) VALUES(
+			#{date},
+			#{name}
+		);
+	</insert>
+	
+	<select id="getHoliday" resultType="com.cn.pflow.domain.HolidayResults">
+		select * from pflowholiday;
+	</select>
+</mapper>

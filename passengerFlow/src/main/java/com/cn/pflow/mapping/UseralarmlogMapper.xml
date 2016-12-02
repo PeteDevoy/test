@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.pflow.IDao.UseralarmlogMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.pflow.domain.Useralarmlog" >
+    <id column="userid" property="userid" jdbcType="BIGINT" />
+    <id column="alarmid" property="alarmid" jdbcType="VARCHAR" />
+    <result column="equipmentid" property="equipmentid" jdbcType="BIGINT" />
+    <result column="msgtype" property="msgtype" jdbcType="VARCHAR" />
+    <result column="readstatus" property="readstatus" jdbcType="VARCHAR" />
+    <result column="readTime" property="readtime" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userid, alarmid, equipmentid, msgtype, readstatus, readTime, createtime, note
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.cn.pflow.domain.UseralarmlogKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from useralarmlog
+    where userid = #{userid,jdbcType=BIGINT}
+      and alarmid = #{alarmid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.cn.pflow.domain.UseralarmlogKey" >
+    delete from useralarmlog
+    where userid = #{userid,jdbcType=BIGINT}
+      and alarmid = #{alarmid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cn.pflow.domain.Useralarmlog" >
+    insert into useralarmlog (userid, alarmid, equipmentid, 
+      msgtype, readstatus, readTime, 
+      createtime, note)
+    values (#{userid,jdbcType=BIGINT}, #{alarmid,jdbcType=VARCHAR}, #{equipmentid,jdbcType=BIGINT}, 
+      #{msgtype,jdbcType=VARCHAR}, #{readstatus,jdbcType=VARCHAR}, #{readtime,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{note,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.pflow.domain.Useralarmlog" >
+    insert into useralarmlog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="alarmid != null" >
+        alarmid,
+      </if>
+      <if test="equipmentid != null" >
+        equipmentid,
+      </if>
+      <if test="msgtype != null" >
+        msgtype,
+      </if>
+      <if test="readstatus != null" >
+        readstatus,
+      </if>
+      <if test="readtime != null" >
+        readTime,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="alarmid != null" >
+        #{alarmid,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentid != null" >
+        #{equipmentid,jdbcType=BIGINT},
+      </if>
+      <if test="msgtype != null" >
+        #{msgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="readstatus != null" >
+        #{readstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="readtime != null" >
+        #{readtime,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.pflow.domain.Useralarmlog" >
+    update useralarmlog
+    <set >
+      <if test="equipmentid != null" >
+        equipmentid = #{equipmentid,jdbcType=BIGINT},
+      </if>
+      <if test="msgtype != null" >
+        msgtype = #{msgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="readstatus != null" >
+        readstatus = #{readstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="readtime != null" >
+        readTime = #{readtime,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userid = #{userid,jdbcType=BIGINT}
+      and alarmid = #{alarmid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.pflow.domain.Useralarmlog" >
+    update useralarmlog
+    set equipmentid = #{equipmentid,jdbcType=BIGINT},
+      msgtype = #{msgtype,jdbcType=VARCHAR},
+      readstatus = #{readstatus,jdbcType=VARCHAR},
+      readTime = #{readtime,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      note = #{note,jdbcType=VARCHAR}
+    where userid = #{userid,jdbcType=BIGINT}
+      and alarmid = #{alarmid,jdbcType=VARCHAR}
+  </update>
+</mapper>

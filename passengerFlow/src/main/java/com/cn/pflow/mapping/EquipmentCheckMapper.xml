@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.pflow.IDao.EquipmentCheckMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.pflow.domain.EquipmentCheck" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="equipmentid" property="equipmentid" jdbcType="BIGINT" />
+    <result column="checktime" property="checktime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="errorcode" property="errorcode" jdbcType="VARCHAR" />
+    <result column="errorinfo" property="errorinfo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, equipmentid, checktime, status, errorcode, errorinfo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from equipmentchecklog
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByEquipmentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from equipmentchecklog
+    where equipmentid = #{equipmentId,jdbcType=BIGINT}
+  </select>    
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from equipmentchecklog
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.cn.pflow.domain.EquipmentCheck" >
+    insert into equipmentchecklog (equipmentid, checktime, status, errorcode, errorinfo
+      )
+    values (#{equipmentid,jdbcType=BIGINT}, #{checktime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR}, #{errorcode,jdbcType=VARCHAR}, #{errorinfo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.pflow.domain.EquipmentCheck" >
+    insert into equipmentchecklog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="equipmentid != null" >
+        equipmentid,
+      </if>
+      <if test="checktime != null" >
+        checktime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="errorcode != null" >
+        errorcode,
+      </if>
+      <if test="errorinfo != null" >
+        errorinfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="equipmentid != null" >
+        #{equipmentid,jdbcType=BIGINT},
+      </if>
+      <if test="checktime != null" >
+        #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="errorcode != null" >
+        #{errorcode,jdbcType=VARCHAR},
+      </if>
+      <if test="errorinfo != null" >
+        #{errorinfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.pflow.domain.EquipmentCheck" >
+    update equipmentchecklog
+    <set >
+      <if test="equipmentid != null" >
+        equipmentid = #{equipmentid,jdbcType=BIGINT},
+      </if>
+      <if test="checktime != null" >
+        checktime = #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="errorcode != null" >
+        errorcode = #{errorcode,jdbcType=VARCHAR},
+      </if>
+      <if test="errorinfo != null" >
+        errorinfo = #{errorinfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.pflow.domain.EquipmentCheck" >
+    update equipmentchecklog
+    set equipmentid = #{equipmentid,jdbcType=BIGINT},
+      checktime = #{checktime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      errorcode = #{errorcode,jdbcType=VARCHAR},
+      errorinfo = #{errorinfo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

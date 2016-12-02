@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.pflow.IDao.EquipmentareainfoMapper">
+  <resultMap id="BaseResultMap" type="com.cn.pflow.domain.EquipmentareainfoKey">
+    <id column="equipmentid" jdbcType="BIGINT" property="equipmentid" />
+    <id column="areaid" jdbcType="BIGINT" property="areaid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.cn.pflow.domain.EquipmentareainfoKey">
+    delete from equipmentareainfo
+    where equipmentid = #{equipmentid,jdbcType=BIGINT}
+      and areaid = #{areaid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cn.pflow.domain.EquipmentareainfoKey">
+    insert into equipmentareainfo (equipmentid, areaid)
+    values (#{equipmentid,jdbcType=BIGINT}, #{areaid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.pflow.domain.EquipmentareainfoKey">
+    insert into equipmentareainfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="equipmentid != null">
+        equipmentid,
+      </if>
+      <if test="areaid != null">
+        areaid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="equipmentid != null">
+        #{equipmentid,jdbcType=BIGINT},
+      </if>
+      <if test="areaid != null">
+        #{areaid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+</mapper>

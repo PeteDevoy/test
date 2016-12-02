@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.pflow.IDao.ChartsCountMapper" >
+
+<resultMap id="ChartsResultMap" type="com.cn.pflow.domain.ChartsCount" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="mac" property="mac" jdbcType="VARCHAR" />
+    <result column="startdatetime" property="startdatetime" jdbcType="VARCHAR" />
+    <result column="enddatetime" property="enddatetime" jdbcType="VARCHAR" />
+    <result column="timehour" property="timehour" jdbcType="INTEGER" />
+    <result column="timeminute" property="timeminute" jdbcType="INTEGER" />
+    <result column="sumenters" property="sumenters" jdbcType="INTEGER" />
+    <result column="sumexits" property="sumexits" jdbcType="INTEGER" />
+    <result column="zoneid" property="zoneid" jdbcType="INTEGER" />
+</resultMap>
+
+
+
+<!-- <select id="selectChartsCountInfoByTime" resultMap="ChartsResultMap">
+    select max(id)as id,mac as mac, min(concat(t.startdate," ", t.starttime))as startdatetime,max(concat(t.enddate," ", t.endtime)) as enddatetime, hour(t.starttime) as timehour, floor(minute(t.starttime)/${tspan}) as timeminute, sum(t.enters) as sumenters, sum(t.exits) as sumexits,zoneid
+	from pflowcount t
+	where equipmentid=#{equipmentid} and unix_timestamp(concat(t.startdate," ", t.starttime)) &gt;= unix_timestamp(#{startDates}) and unix_timestamp(concat(t.enddate," ", t.endtime)) &lt;= unix_timestamp(#{endDates})
+	group by mac, timehour, timeminute
+	order by unix_timestamp(concat(t.startdate," ", t.starttime)) asc;
+</select> -->
+
+<select id="selectChartsCountInfoByTime" resultMap="ChartsResultMap">
+    select max(id)as id,mac as mac, min(concat(t.startdate," ", t.starttime))as startdatetime,max(concat(t.enddate," ", t.endtime)) as enddatetime, hour(t.starttime) as timehour, floor(minute(t.starttime)/${tspan}) as timeminute, sum(t.enters) as sumenters, sum(t.exits) as sumexits,zoneid
+	from pflowcount t
+	where equipmentid in <foreach item="equipmentid" collection="equipmentids" open="(" separator="," close=")">#{equipmentid}</foreach>  and unix_timestamp(concat(t.startdate," ", t.starttime)) &gt;= unix_timestamp(#{startDates}) and unix_timestamp(concat(t.enddate," ", t.endtime)) &lt;= unix_timestamp(#{endDates})
+	group by mac, timehour, timeminute
+	order by unix_timestamp(concat(t.startdate," ", t.starttime)) asc;
+</select>
+ 
+</mapper>

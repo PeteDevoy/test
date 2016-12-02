@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.pflow.IDao.ChartsServiceMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.pflow.domain.Charts" >
+    <result column="day" property="day" jdbcType="VARCHAR" />
+    <result column="hour" property="hour" jdbcType="VARCHAR" />
+    <result column="startdate" property="startdate" jdbcType="VARCHAR" />
+    <result column="sumenters" property="sumenters" jdbcType="INTEGER" />
+    <result column="sumexits" property="sumexits" jdbcType="INTEGER" />
+     <result column="avgenters" property="avgenters" jdbcType="INTEGER" />
+    <result column="avgexits" property="avgexits" jdbcType="INTEGER" />
+     <result column="totalenters" property="totalenters" jdbcType="BIGINT" />
+    <result column="totalexits" property="totalexits" jdbcType="BIGINT" />
+  </resultMap>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.cn.pflow.domain.Pflowcount" >
+    insert into pflowcount (mac, startdate, starttime, 
+      enddate, endtime, zoneid, 
+      totalenters, totalexits, enters, 
+      exits, status)
+    values (#{mac,jdbcType=VARCHAR}, #{startdate,jdbcType=VARCHAR}, #{starttime,jdbcType=VARCHAR}, 
+      #{enddate,jdbcType=VARCHAR}, #{endtime,jdbcType=VARCHAR}, #{zoneid,jdbcType=INTEGER}, 
+      #{totalenters,jdbcType=BIGINT}, #{totalexits,jdbcType=BIGINT}, #{enters,jdbcType=INTEGER}, 
+      #{exits,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.pflow.domain.Pflowcount" >
+    insert into pflowcount
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mac != null" >
+        mac,
+      </if>
+      <if test="startdate != null" >
+        startdate,
+      </if>
+      <if test="starttime != null" >
+        starttime,
+      </if>
+      <if test="enddate != null" >
+        enddate,
+      </if>
+      <if test="endtime != null" >
+        endtime,
+      </if>
+      <if test="zoneid != null" >
+        zoneid,
+      </if>
+      <if test="totalenters != null" >
+        totalenters,
+      </if>
+      <if test="totalexits != null" >
+        totalexits,
+      </if>
+      <if test="enters != null" >
+        enters,
+      </if>
+      <if test="exits != null" >
+        exits,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mac != null" >
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="zoneid != null" >
+        #{zoneid,jdbcType=INTEGER},
+      </if>
+      <if test="totalenters != null" >
+        #{totalenters,jdbcType=BIGINT},
+      </if>
+      <if test="totalexits != null" >
+        #{totalexits,jdbcType=BIGINT},
+      </if>
+      <if test="enters != null" >
+        #{enters,jdbcType=INTEGER},
+      </if>
+      <if test="exits != null" >
+        #{exits,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <sql id="Base_Column_List" >
+    id, mac, startdate, starttime, enddate, endtime, zoneid, totalenters, totalexits, enters, 
+    exits, status
+  </sql>
+  
+    <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+ 
+  
+  
+  <select id="getSeventyChartsInfoByTime" resultMap="BaseResultMap"  >
+SELECT p.startdate,SUM(p.enters) AS sumenters,SUM(p.exits) AS sumexits 
+FROM pflowcount p 
+WHERE equipmentid in <foreach item="equipmentid" collection="equipmentids" open="(" separator="," close=")">#{equipmentid}</foreach> and UNIX_TIMESTAMP(p.startdate)&gt;=UNIX_TIMESTAMP(#{0}) AND UNIX_TIMESTAMP(p.enddate)&lt;=UNIX_TIMESTAMP(#{1}) 
+GROUP BY p.startdate
+  </select>
+   
+   <select id="getEightyChartsInfoByTime" resultMap="BaseResultMap"  >
+
+SELECT hour(t.starttime)+1 AS startdate,(SUM(t.enters)/(DATEDIFF(#{1},#{0})+1 ))AS sumenters,(SUM(t.exits)/(DATEDIFF(#{1},#{0})+1)) AS sumexits 
+FROM pflowcount t WHERE equipmentid in <foreach item="equipmentid" collection="equipmentids" open="(" separator="," close=")">#{equipmentid}</foreach> and UNIX_TIMESTAMP(t.startdate)&gt;=UNIX_TIMESTAMP(#{0}) AND UNIX_TIMESTAMP(t.enddate)&lt;=UNIX_TIMESTAMP(#{1})
+GROUP BY hour(t.starttime)
+  </select>
+  
+   <select id="getNinetyChartsInfoByTime" resultMap="BaseResultMap"  >
+SELECT DAY(startdate) as startdate,SUM(sumenters)/COUNT(DAY(startdate))AS sumenters,SUM(sumexits)/COUNT(DAY(startdate)) AS sumexits  
+FROM (
+SELECT t.startdate,SUM(t.enters) AS sumenters, SUM(t.exits) AS sumexits 
+FROM pflowcount t WHERE equipmentid in <foreach item="equipmentid" collection="equipmentids" open="(" separator="," close=")">#{equipmentid}</foreach> and UNIX_TIMESTAMP(t.startdate)&gt;= UNIX_TIMESTAMP(#{0}) AND  UNIX_TIMESTAMP(t.enddate)&lt;= UNIX_TIMESTAMP(#{1})
+ GROUP BY t.startdate
+ )tt GROUP BY DAY(startdate)
+  </select>
+  
+</mapper>

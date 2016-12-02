@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">  
+   
+    <context:component-scan base-package="com.cn.pflow.scheduler" />  
+   
+   
+    <bean name="equipmentStautsComplexJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">  
+        <property name="jobClass" value="com.cn.pflow.scheduler.jobs.EquipmentStautsSchedulerJob" />   
+        <property name="durability" value="true" />  
+    </bean>
+   
+   
+    <bean name="weatherComplexJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">  
+        <property name="jobClass" value="com.cn.pflow.scheduler.jobs.WeatherScheduledJob" />   
+        <property name="durability" value="true" />  
+    </bean>  
+      
+ 
+    <bean name="holidayComplexJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">  
+        <property name="jobClass" value="com.cn.pflow.scheduler.jobs.HolidayScheduledJob" />  
+        <property name="durability" value="true" />  
+    </bean>  
+   
+    <!-- every 3 seconds -->  
+    <bean id="equipmentStautsCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail" ref="equipmentStautsComplexJobDetail" />    
+        <property name="cronExpression" value="0 1/5 * ? * *" />           
+    </bean>  
+    
+    <!-- 22:00 everyday --> 
+    <bean id="weatherCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail" ref="weatherComplexJobDetail" />    
+        <property name="cronExpression" value="0/3 * * ? * *" />           
+    </bean>
+      
+    <!-- 00:00 每月一号 -->  
+    <bean id="holidayCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail" ref="holidayComplexJobDetail" />  
+        <!-- <property name="cronExpression" value="0 0 23 ? * *" /> -->
+         <property name="cronExpression" value=" 0/3 * * ? * * " /><!-- 每月一号0点 -->
+        <!-- <property name="cronExpression" value=" 0/3 * * ? * * " />--><!-- 每三秒 --> 
+    </bean>  
+   
+   
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="jobDetails">  
+            <list> 
+            	<ref bean="equipmentStautsComplexJobDetail" />  
+                <ref bean="weatherComplexJobDetail" />  
+                <ref bean="holidayComplexJobDetail" />  
+            </list>  
+        </property>  
+        <property name="triggers">  
+            <list>
+             	<ref bean="equipmentStautsCronTrigger" />  
+                <ref bean="weatherCronTrigger" />  
+                <ref bean="holidayCronTrigger" />  
+            </list>  
+        </property>  
+    </bean>  
+   
+</beans>  

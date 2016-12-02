@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.pflow.IDao.WeatempMapper" >
+
+<resultMap id="" type="com.cn.pflow.domain.Weatemp" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="startdate" property="startdate" jdbcType="VARCHAR" />
+    <result column="weather" property="weather" jdbcType="VARCHAR" />
+    <result column="nowtemperature" property="nowtemperature" jdbcType="INTEGER" />
+    <result column="maxtemperature" property="maxtemperature" jdbcType="INTEGER" />
+    <result column="mintemperature" property="mintemperature" jdbcType="INTEGER" />
+    <result column="pm25" property="pm25" jdbcType="INTEGER" />
+    <result column="holiday" property="holiday" jdbcType="VARCHAR" />
+    <result column="activity" property="activity" jdbcType="VARCHAR" />
+    <result column="pflow" property="pflow" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="acttype" property="acttype" jdbcType="VARCHAR" />
+</resultMap>
+
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.pflow.IDao.PflowconfigMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.pflow.domain.Pflowconfig" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="scenemode" property="scenemode" jdbcType="INTEGER" />
+    <result column="starttime" property="starttime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, scenemode, starttime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pflowconfig
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pflowconfig
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.pflow.domain.Pflowconfig" >
+    insert into pflowconfig (Id, scenemode, starttime
+      )
+    values (#{id,jdbcType=INTEGER}, #{scenemode,jdbcType=INTEGER}, #{starttime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.pflow.domain.Pflowconfig" >
+    insert into pflowconfig
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="scenemode != null" >
+        scenemode,
+      </if>
+      <if test="starttime != null" >
+        starttime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="scenemode != null" >
+        #{scenemode,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.pflow.domain.Pflowconfig" >
+    update pflowconfig
+    <set >
+      <if test="scenemode != null" >
+        scenemode = #{scenemode,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null" >
+        starttime = #{starttime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.pflow.domain.Pflowconfig" >
+    update pflowconfig
+    set scenemode = #{scenemode,jdbcType=INTEGER},
+      starttime = #{starttime,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

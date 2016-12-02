@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.pflow.IDao.DaycountMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.pflow.domain.Daycount" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="equipmentid" property="equipmentid" jdbcType="BIGINT" />
+    <result column="date" property="date" jdbcType="DATE" />
+    <result column="totalenters" property="totalenters" jdbcType="BIGINT" />
+    <result column="totalexits" property="totalexits" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, equipmentid, date, totalenters, totalexits
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pflowdaycount
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pflowdaycount
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.cn.pflow.domain.Daycount" >
+    insert into pflowdaycount (equipmentid, date, 
+      totalenters, totalexits)
+    values (#{equipmentid,jdbcType=BIGINT}, #{date,jdbcType=DATE}, 
+      #{totalenters,jdbcType=BIGINT}, #{totalexits,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.pflow.domain.Daycount" >
+    insert into pflowdaycount
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="equipmentid != null" >
+        equipmentid,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="totalenters != null" >
+        totalenters,
+      </if>
+      <if test="totalexits != null" >
+        totalexits,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentid != null" >
+        #{equipmentid,jdbcType=BIGINT},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="totalenters != null" >
+        #{totalenters,jdbcType=BIGINT},
+      </if>
+      <if test="totalexits != null" >
+        #{totalexits,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.pflow.domain.Daycount" >
+    update pflowdaycount
+    <set >
+      <if test="equipmentid != null" >
+        equipmentid = #{equipmentid,jdbcType=BIGINT},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=DATE},
+      </if>
+      <if test="totalenters != null" >
+        totalenters = #{totalenters,jdbcType=BIGINT},
+      </if>
+      <if test="totalexits != null" >
+        totalexits = #{totalexits,jdbcType=BIGINT},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.pflow.domain.Daycount" >
+    update pflowdaycount
+    set equipmentid = #{equipmentid,jdbcType=BIGINT},
+      date = #{date,jdbcType=DATE},
+      totalenters = #{totalenters,jdbcType=BIGINT},
+      totalexits = #{totalexits,jdbcType=BIGINT}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
